@@ -15,8 +15,8 @@
         <th scope="col">number of input calls</th>
         <th scope="col">number of output calls</th>
         <th scope="col">status</th>
-        <th scope="col">Send Whatsapp message Welcome</th>
         <th scope="col">Send Whatsapp message How are you ?</th>
+        <th scope="col">Send Whatsapp message Welcome</th>
 
     </thead>
 
@@ -37,8 +37,8 @@
         <td>{{ item.numberOfInputCalls}}</td>
         <td>{{ item.numberOfOutputCalls}}</td>
         <td>{{ item.status}}</td>
-        <td><a href="{{ item.message1 | safe }}" > send message Welcome </a></td>
-        <td><a href="{{ item.messageWelcome | safe }}" > send message How are you? </a></td>
+        <td><a href="{{ item.message1 | safe }}" > send message How are you?  </a></td>
+        <td><a href="{{ item.messageWelcome | safe }}" >  send message Welcome  </a></td>
     </tr>
     {% endfor %}
     </tbody>
