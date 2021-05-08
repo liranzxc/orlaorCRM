@@ -31,9 +31,13 @@ export class CallsService {
     for await (const call of calls) {
       const found = await this.repo.findOne({ hash: call.hash });
       if (!found) {
-        const callEntity = new this.repo(call);
-        callEntity._id = call.id;
-        await callEntity.save();
+        try {
+          const callEntity = new this.repo(call);
+          callEntity._id = call.id;
+          await callEntity.save();
+        } catch (err) {
+          console.error(err);
+        }
       } else {
         console.log('skip same hash');
       }
