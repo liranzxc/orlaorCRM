@@ -18,7 +18,7 @@ export class CallsService {
     private readonly repo: ReturnModelType<typeof CallEntity>,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS, {
+  @Cron(CronExpression.EVERY_DAY_AT_7AM, {
     name: 'notifications',
     timeZone: 'Asia/Jerusalem',
   })
