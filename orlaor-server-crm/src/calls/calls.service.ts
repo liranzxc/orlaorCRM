@@ -18,13 +18,13 @@ export class CallsService {
     private readonly repo: ReturnModelType<typeof CallEntity>,
   ) {}
 
-  // @Cron(CronExpression.EVERY_10_SECONDS, {
-  //   name: 'notifications',
-  //   timeZone: 'Asia/Jerusalem',
-  // })
-  // async handleCron() {
-  //   await this.sendEmailReport();
-  // }
+  @Cron(CronExpression.EVERY_10_SECONDS, {
+    name: 'notifications',
+    timeZone: 'Asia/Jerusalem',
+  })
+  async handleCron() {
+    await this.sendEmailReport();
+  }
 
   async saveCallOnDb(calls: CallDtoModel[]) {
     console.log('calling to db');
@@ -53,12 +53,12 @@ export class CallsService {
     const records = await this.repo.find({
       // TODO ADD
       $and: [
-        // {
-        //   timestamp: {
-        //     $gte: lastWeek.getTime(),
-        //     $lt: new Date().getTime(),
-        //   },
-        // },
+        {
+          timestamp: {
+            $gte: lastWeek.getTime(),
+            $lt: new Date().getTime(),
+          },
+        },
         {
           $or: [
             { name: { $in: regexMatch } },
@@ -89,22 +89,34 @@ export class CallsService {
         ?.filter((call) => call?.type === 'INCOMING' || call?.type === 'MISSED')
         ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
 
-      console.log(latestInputCall?.timestamp);
-      const lastCallDateInput =
-        moment
-          .tz(new Date(latestInputCall?.callDate).toString(), 'Asia/Jerusalem')
-          .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
-
-      console.log(lastCallDateInput);
+      let lastCallDateInput = '';
+      if (latestInputCall?.timestamp) {
+        try {
+          lastCallDateInput =
+            moment
+              .tz(new Date(latestInputCall?.timestamp), 'Asia/Jerusalem')
+              .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
       const latestOutCall = arrayCalls
         ?.filter((call) => call.type === 'OUTGOING')
         ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
 
-      const lastCallDateOutput =
-        moment
-          .tz(new Date(latestOutCall?.timestamp).toString(), 'Asia/Jerusalem')
-          .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
+      let lastCallDateOutput = '';
+
+      if (latestOutCall?.timestamp) {
+        try {
+          lastCallDateOutput =
+            moment
+              .tz(new Date(latestOutCall?.timestamp), 'Asia/Jerusalem')
+              .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
       const beforeThreeDay = new Date();
       beforeThreeDay.setDate(beforeThreeDay.getDate() - 3);
@@ -127,7 +139,18 @@ export class CallsService {
         ? arrayCalls?.[0]?.name
         : 'unknown';
 
-      const message1 = 'שלום בדיקה בדיקה';
+      const message2 = `
+שלום לך,
+ נשמח לחזור אלייך ולמסור פרטים.
+תוכלו להתרשם ממגוון  מכשירים וקורסים שלנו.
+
+לשרותכם
+אור לעור טכנולוגיות 
+סוזי נחמן
+054-4969106`;
+
+      let message1 = `שלום ${name.split(' ')[0]} `;
+      message1 += ' מה נשמע ? יש משהו שנוכל להתקדם בו ? ';
       const numberWhatsapp = number.startsWith('+')
         ? number
         : '+972' + number.slice(1);
@@ -143,10 +166,13 @@ export class CallsService {
         message1: encodeURI(
           `https://wa.me/${numberWhatsapp}/?text=${message1}`,
         ),
+        messageWelcome: encodeURI(
+          `https://wa.me/${numberWhatsapp}/?text=${message2}`,
+        ),
       });
     }
 
-    // await this.sendTableByEmail(table);
+    await this.sendTableByEmail(table);
   }
 
   private async sendTableByEmail(table: TableRecordModel[]) {

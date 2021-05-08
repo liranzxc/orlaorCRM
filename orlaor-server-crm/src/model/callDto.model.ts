@@ -21,4 +21,5 @@ export interface TableRecordModel {
   status: string;
   redSignal: boolean;
   message1: string;
+  messageWelcome: string;
 }
