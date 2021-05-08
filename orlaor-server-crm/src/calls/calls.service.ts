@@ -9,6 +9,7 @@ import * as nunjucks from 'nunjucks';
 import * as nodemailer from 'nodemailer';
 import { ENV } from '../env';
 import * as path from 'path';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class CallsService {
@@ -55,7 +56,10 @@ export class CallsService {
         //   },
         // },
         {
-          $or: [{ name: { $in: regexMatch } }, { type: 'MISSED' }],
+          $or: [
+            { name: { $in: regexMatch } },
+            { type: 'MISSED', name: { $exists: false } },
+          ],
         },
       ],
     });
@@ -81,13 +85,22 @@ export class CallsService {
         ?.filter((call) => call?.type === 'INCOMING' || call?.type === 'MISSED')
         ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
 
-      const lastCallDateInput = latestInputCall?.callDate || '';
+      console.log(latestInputCall?.timestamp);
+      const lastCallDateInput =
+        moment
+          .tz(new Date(latestInputCall?.callDate).toString(), 'Asia/Jerusalem')
+          .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
+
+      console.log(lastCallDateInput);
 
       const latestOutCall = arrayCalls
         ?.filter((call) => call.type === 'OUTGOING')
         ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
 
-      const lastCallDateOutput = latestOutCall?.callDate || '';
+      const lastCallDateOutput =
+        moment
+          .tz(new Date(latestOutCall?.timestamp).toString(), 'Asia/Jerusalem')
+          .format('dddd, MMMM Do YYYY, h:mm:ss a') || '';
 
       const beforeThreeDay = new Date();
       beforeThreeDay.setDate(beforeThreeDay.getDate() - 3);
@@ -101,7 +114,8 @@ export class CallsService {
         redSignal = true;
       }
       const status: string =
-        arrayCalls?.filter((call) => call?.type === 'MISSED')?.length > 0
+        arrayCalls?.filter((call) => call?.type === 'MISSED')?.length ===
+        arrayCalls.length
           ? 'MISSED'
           : '';
 
@@ -110,6 +124,9 @@ export class CallsService {
         : 'unknown';
 
       const message1 = 'שלום בדיקה בדיקה';
+      const numberWhatsapp = number.startsWith('+')
+        ? number
+        : '+972' + number.slice(1);
       table.push({
         name: name,
         lastCallInput: lastCallDateInput,
@@ -119,11 +136,13 @@ export class CallsService {
         numberOfInputCalls: numberOfCallOnThisWeekInput,
         numberOfOutputCalls: numberOfCallOnThisWeekOutput,
         redSignal: redSignal,
-        message1: encodeURI(`https://wa.me/${number}/?text=${message1}`),
+        message1: encodeURI(
+          `https://wa.me/${numberWhatsapp}/?text=${message1}`,
+        ),
       });
     }
 
-    await this.sendTableByEmail(table);
+    // await this.sendTableByEmail(table);
   }
 
   private async sendTableByEmail(table: TableRecordModel[]) {

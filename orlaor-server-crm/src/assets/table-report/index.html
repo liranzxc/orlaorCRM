@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"></script>
 </head>
 <body>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Number</th>
-        <th>Last INGOING Call date</th>
-        <th>Last OUTGOING Call date</th>
-        <th>number of input calls</th>
-        <th>number of output calls</th>
-        <th>status</th>
-        <th>Send Whatsapp message</th>
+<table class="table table-striped">
+    <thead>
+        <th scope="col">Name</th>
+        <th scope="col">Number</th>
+        <th scope="col">Last INGOING Call date</th>
+        <th scope="col">Last OUTGOING Call date</th>
+        <th scope="col">number of input calls</th>
+        <th scope="col">number of output calls</th>
+        <th scope="col">status</th>
+        <th scope="col">Send Whatsapp message</th>
 
-    </tr>
+    </thead>
+
+    <tbody>
 
     {% for item in items %}
 
@@ -36,6 +39,7 @@
         <td><a href="{{ item.message1 | safe }}" > send message </a></td>
     </tr>
     {% endfor %}
+    </tbody>
 
 </table>
 

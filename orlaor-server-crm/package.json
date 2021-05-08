@@ -34,6 +34,7 @@
     "class-validator": "^0.13.1",
     "global": "^4.4.0",
     "lambda-request-handler": "^0.5.1-alpha1",
+    "moment-timezone": "^0.5.33",
     "mongoose": "5.10.19",
     "nestjs-typegoose": "^7.1.38",
     "nodemailer": "^6.6.0",
