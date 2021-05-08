@@ -14,11 +14,18 @@
         <th>number of input calls</th>
         <th>number of output calls</th>
         <th>status</th>
+        <th>Send Whatsapp message</th>
 
     </tr>
 
     {% for item in items %}
+
+    {% if item.redSignal %}
+    <tr style="color:red">
+    {% else %}
     <tr>
+    {%endif %}
+
         <td>{{ item.name}}</td>
         <td>{{ item.number}}</td>
         <td>{{ item.lastCallInput}}</td>
@@ -26,6 +33,7 @@
         <td>{{ item.numberOfInputCalls}}</td>
         <td>{{ item.numberOfOutputCalls}}</td>
         <td>{{ item.status}}</td>
+        <td><a href="{{ item.message1 | safe }}" > send message </a></td>
     </tr>
     {% endfor %}
 

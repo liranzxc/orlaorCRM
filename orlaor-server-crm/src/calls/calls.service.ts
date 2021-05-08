@@ -77,19 +77,29 @@ export class CallsService {
         (call) => call?.type === 'OUTGOING',
       )?.length;
 
-      const lastCallDateInput =
-        arrayCalls
-          ?.filter(
-            (call) => call?.type === 'INCOMING' || call?.type === 'MISSED',
-          )
-          ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0]
-          ?.callDate || '';
-      const lastCallDateOutput =
-        arrayCalls
-          ?.filter((call) => call.type === 'OUTGOING')
-          ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0]
-          ?.callDate || '';
+      const latestInputCall = arrayCalls
+        ?.filter((call) => call?.type === 'INCOMING' || call?.type === 'MISSED')
+        ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
 
+      const lastCallDateInput = latestInputCall?.callDate || '';
+
+      const latestOutCall = arrayCalls
+        ?.filter((call) => call.type === 'OUTGOING')
+        ?.sort((a, b) => (a?.timestamp > b?.timestamp ? 1 : -1))?.[0];
+
+      const lastCallDateOutput = latestOutCall?.callDate || '';
+
+      const beforeThreeDay = new Date();
+      beforeThreeDay.setDate(beforeThreeDay.getDate() - 3);
+
+      let redSignal = false;
+
+      if (
+        beforeThreeDay.getTime() > latestOutCall?.timestamp ||
+        beforeThreeDay.getTime() > latestInputCall?.timestamp
+      ) {
+        redSignal = true;
+      }
       const status: string =
         arrayCalls?.filter((call) => call?.type === 'MISSED')?.length > 0
           ? 'MISSED'
@@ -99,6 +109,7 @@ export class CallsService {
         ? arrayCalls?.[0]?.name
         : 'unknown';
 
+      const message1 = 'שלום בדיקה בדיקה';
       table.push({
         name: name,
         lastCallInput: lastCallDateInput,
@@ -107,6 +118,8 @@ export class CallsService {
         number: number,
         numberOfInputCalls: numberOfCallOnThisWeekInput,
         numberOfOutputCalls: numberOfCallOnThisWeekOutput,
+        redSignal: redSignal,
+        message1: encodeURI(`https://wa.me/${number}/?text=${message1}`),
       });
     }
 
@@ -124,7 +137,7 @@ export class CallsService {
     const mailOptions = {
       from: ENV.EMAIL_AUTH_GMAIL,
       to: ENV.CLIENT_EMAIL,
-      subject: 'report customers' + new Date().toString(),
+      subject: 'report customers ' + new Date().toString(),
       html: html,
     };
 

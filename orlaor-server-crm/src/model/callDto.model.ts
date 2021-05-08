@@ -19,4 +19,6 @@ export interface TableRecordModel {
   numberOfInputCalls: number;
   numberOfOutputCalls: number;
   status: string;
+  redSignal: boolean;
+  message1: string;
 }
