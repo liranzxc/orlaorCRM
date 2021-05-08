@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Number</th>
+        <th>Last INGOING Call date</th>
+        <th>Last OUTGOING Call date</th>
+        <th>number of input calls</th>
+        <th>number of output calls</th>
+        <th>status</th>
+
+    </tr>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item.name}}</td>
+        <td>{{ item.number}}</td>
+        <td>{{ item.lastCallInput}}</td>
+        <td>{{ item.lastCallOutput}}</td>
+        <td>{{ item.numberOfInputCalls}}</td>
+        <td>{{ item.numberOfOutputCalls}}</td>
+        <td>{{ item.status}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+</body>
+</html>

@@ -8,4 +8,15 @@ export interface CallDtoModel {
   phoneId: string;
   number: string;
   hash: string;
+  timestamp: number;
+}
+
+export interface TableRecordModel {
+  name: string;
+  number: string;
+  lastCallInput: string;
+  lastCallOutput: string;
+  numberOfInputCalls: number;
+  numberOfOutputCalls: number;
+  status: string;
 }

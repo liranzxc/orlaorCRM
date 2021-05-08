@@ -23,6 +23,10 @@ export class CallEntity implements CallDtoModel {
   @prop({ required: true, unique: true })
   hash: string;
 
+  @prop({ required: false })
+  timestamp: number;
+
+
   @IsString()
   @prop({ required: false })
   name: string;
