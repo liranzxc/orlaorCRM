@@ -18,13 +18,13 @@ export class CallsService {
     private readonly repo: ReturnModelType<typeof CallEntity>,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS, {
-    name: 'notifications',
-    timeZone: 'Asia/Jerusalem',
-  })
-  async handleCron() {
-    await this.sendEmailReport();
-  }
+  // @Cron(CronExpression.EVERY_10_SECONDS, {
+  //   name: 'notifications',
+  //   timeZone: 'Asia/Jerusalem',
+  // })
+  // async handleCron() {
+  //   await this.sendEmailReport();
+  // }
 
   async saveCallOnDb(calls: CallDtoModel[]) {
     console.log('calling to db');
