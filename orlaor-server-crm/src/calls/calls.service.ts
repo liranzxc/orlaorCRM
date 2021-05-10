@@ -46,8 +46,8 @@ export class CallsService {
 
   private async sendEmailReport() {
     // get all calls in last 1 week
-    const lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
+    const lastTwoWeek = new Date();
+    lastTwoWeek.setDate(lastTwoWeek.getDate() - 14);
 
     const regexMatch = [/הדרכה/i, /לקוח/i, /קורס/i, /לייזר/i];
     const records = await this.repo.find({
@@ -55,7 +55,7 @@ export class CallsService {
       $and: [
         {
           timestamp: {
-            $gte: lastWeek.getTime(),
+            $gte: lastTwoWeek.getTime(),
             $lt: new Date().getTime(),
           },
         },
@@ -140,14 +140,17 @@ export class CallsService {
         : 'unknown';
 
       const message2 = `
-שלום לך,
- נשמח לחזור אלייך ולמסור פרטים.
-תוכלו להתרשם ממגוון  מכשירים וקורסים שלנו.
+היי ,
+זו סוזי נחמן מאור לעור טכנולוגיות.
 
-לשרותכם
-אור לעור טכנולוגיות 
-סוזי נחמן
-054-4969106`;
+אני אשמח לשוב אלייך בהקדם.😊
+קורסים-טיפולים-מכשירים לייזר ועוד 
+
+בברכה
+סוזי נחמן  
+054-4969106
+orlaor.org.il
+https://www.orlaor.org.il/orlaor-technolaty-about`;
 
       let message1 = `שלום ${name.split(' ')[0]} `;
       message1 += ' מה נשמע ? יש משהו שנוכל להתקדם בו ? ';
