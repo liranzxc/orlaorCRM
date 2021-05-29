@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,8 @@ import {MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { HttpClientModule} from "@angular/common/http";
+import {DatePipe} from "@angular/common";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -18,6 +20,9 @@ import { HttpClientModule} from "@angular/common/http";
     DashboardComponent
   ],
   imports: [
+    BrowserModule,
+    MatTableModule,
+    MatSortModule,
     HttpClientModule,
     MatFormFieldModule,
     MatTableModule,
@@ -28,7 +33,7 @@ import { HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
