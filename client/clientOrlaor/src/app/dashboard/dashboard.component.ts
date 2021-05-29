@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.sortData(this.sort);
     });
   }
 
@@ -66,7 +67,9 @@ export class DashboardComponent implements OnInit {
         case 'numberOfInputCalls': return this.compare(a.numberOfInputCalls, b.numberOfInputCalls, isAsc);
         case 'numberOfOutputCalls': return this.compare(a.numberOfOutputCalls, b.numberOfOutputCalls, isAsc);
         case 'status': return this.compare(a.status, b.status, isAsc);
-        default: return 0;
+        case 'redSignal': return this.compare(a.redSignal ? 1 : 0 , b.redSignal ? 1 : 0, isAsc);
+
+        default: return this.compare(a.redSignal ? 1 : 0 , b.redSignal ? 1 : 0, isAsc);
       }
     });
   }
