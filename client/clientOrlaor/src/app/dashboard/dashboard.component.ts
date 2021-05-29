@@ -30,6 +30,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   this.loadData();
+  }
+
+  loadData()
+  {
     this.callsService.callInformationTwoWeekAgo().then(calls => {
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(calls);
@@ -80,6 +85,8 @@ export class DashboardComponent implements OnInit {
   async hideRow(row: TableRecordModel) {
 
     await this.callsService.hideRecord(row.number);
+
+    this.loadData();
   }
 }
 

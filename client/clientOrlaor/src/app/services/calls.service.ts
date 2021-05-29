@@ -166,7 +166,7 @@ https://www.orlaor.org.il/orlaor-technolaty-about`;
   }
 
   async hideRecord(number: string) {
-    let data = (await this.httpClient.put(environment.url + `/hideRow?apiKey=${environment.API_KEY}`,{number : number}).toPromise());
+    let data = (await this.httpClient.post(environment.url + `/hideRow?apiKey=${environment.API_KEY}`,{number : number}).toPromise());
     return data;
 
   }
