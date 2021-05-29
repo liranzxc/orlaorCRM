@@ -11,6 +11,9 @@ export class CallEntity implements CallDtoModel {
   @prop({ required: true })
   callDate: string;
 
+  @prop({ required: false, default: false })
+  hide: boolean;
+
   @IsNumber()
   @prop({ required: false })
   duration: number;
@@ -25,7 +28,6 @@ export class CallEntity implements CallDtoModel {
 
   @prop({ required: false })
   timestamp: number;
-
 
   @IsString()
   @prop({ required: false })

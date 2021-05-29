@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
 
   async hideRow(row: TableRecordModel) {
 
-    console.log(row);
+    await this.callsService.hideRecord(row.number);
   }
 }
 

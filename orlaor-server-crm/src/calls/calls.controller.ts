@@ -20,6 +20,19 @@ export class CallsController {
     return { message: 'welcome' };
   }
 
+  @Post('/hideRow')
+  async getDataInformation(
+    @Body('number') number: string,
+    @Query('apiKey') apiKey: string,
+  ) {
+    if (apiKey === ENV.API_KEY && number) {
+    } else {
+      throw new BadRequestException();
+    }
+
+    return this.callService.hideRow(number);
+  }
+
   @Post('/data')
   async getDataInformation(
     @Body('filter') filter,

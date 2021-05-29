@@ -213,4 +213,8 @@ https://www.orlaor.org.il/orlaor-technolaty-about`;
   async getDataInformation(filter: any) {
     return this.repo.find(filter);
   }
+
+  hideRow(number: string) {
+    return this.repo.updateMany({ number: number }, { $set: { hide: true } });
+  }
 }

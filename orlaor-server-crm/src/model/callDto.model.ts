@@ -11,6 +11,7 @@ export interface CallDtoModel {
   number: string;
   hash: string;
   timestamp: number;
+  hide?: boolean;
 }
 
 export interface TableRecordModel {

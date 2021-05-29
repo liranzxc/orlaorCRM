@@ -36,6 +36,9 @@ export class CallsService
                 { type: 'MISSED', name: { $exists: false } }
           ],
         },
+        {
+          hide:false,
+        }
       ]};
 
     const records = await this.getInformation(filter);
@@ -158,6 +161,12 @@ https://www.orlaor.org.il/orlaor-technolaty-about`;
 
     let data = (await this.httpClient.post(environment.url + `/data?apiKey=${environment.API_KEY}`,{filter : filter}).toPromise());
 
+    return data;
+
+  }
+
+  async hideRecord(number: string) {
+    let data = (await this.httpClient.put(environment.url + `/hideRow?apiKey=${environment.API_KEY}`,{number : number}).toPromise());
     return data;
 
   }
