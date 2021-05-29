@@ -59,6 +59,12 @@
       <td mat-cell *matCellDef="let row"> <a href="{{row.messageWelcome}}"> Whatsapp message - Welcome</a> </td>
     </ng-container>
 
+    <ng-container matColumnDef="delete" >
+      <th mat-header-cell  *matHeaderCellDef mat-sort-header> delete </th>
+      <td mat-cell *matCellDef="let row"> <button (click)="hideRow(row)">hide Row</button> </td>
+    </ng-container>
+
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

@@ -16,7 +16,7 @@ import {MatSort, Sort} from "@angular/material/sort";
 })
 export class DashboardComponent implements OnInit {
   displayedColumns: string[] = ['name','number','lastCallInput'
-    ,'lastCallOutput','numberOfInputCalls','numberOfOutputCalls','status','message1','messageWelcome'];
+    ,'lastCallOutput','numberOfInputCalls','numberOfOutputCalls','status','message1','messageWelcome','delete'];
   dataSource: MatTableDataSource<TableRecordModel> = new MatTableDataSource<TableRecordModel>();
 
   @ViewChild(MatPaginator,{static:false}) paginator: MatPaginator ;
@@ -76,6 +76,11 @@ export class DashboardComponent implements OnInit {
  compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
+  async hideRow(row: TableRecordModel) {
+
+    console.log(row);
+  }
 }
 
 
