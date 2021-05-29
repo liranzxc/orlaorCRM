@@ -21,7 +21,7 @@ export class CallsController {
   }
 
   @Post('/hideRow')
-  async getDataInformation(
+  async hideRow(
     @Body('number') number: string,
     @Query('apiKey') apiKey: string,
   ) {
