@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { CallsService } from './calls.service';
 import { CallDtoModel } from '../model/callDto.model';
 import { ENV } from '../env';
@@ -10,6 +18,22 @@ export class CallsController {
   @Get('/calls')
   getHello(): { message: string } {
     return { message: 'welcome' };
+  }
+
+  @Post('/data')
+  async getDataInformation(
+    @Body('filter') filter,
+    @Query('apiKey') apiKey: string,
+  ) {
+    if (!filter) {
+      filter = {};
+    }
+    if (apiKey === ENV.API_KEY) {
+    } else {
+      throw new BadRequestException();
+    }
+
+    return this.callService.getDataInformation(filter);
   }
 
   @Post('/calls')
