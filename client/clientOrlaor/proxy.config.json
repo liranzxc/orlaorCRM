@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "http://ec2-54-146-9-252.compute-1.amazonaws.com:3000",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

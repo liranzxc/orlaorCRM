@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  API_KEY: 'xxx',
-  url: "xxx",
+  API_KEY: 'BBmy3dn7rtz4',
+  url: "/api",
 
 };

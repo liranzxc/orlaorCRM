@@ -15,7 +15,8 @@ import {TableRecordModel} from "../../../../../orlaor-server-crm/src/model/callD
   styleUrls: ['./dashboard.component.sass']
 })
 export class DashboardComponent implements AfterViewInit,OnInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
+  displayedColumns: string[] = ['name','number','lastCallInput'
+    ,'lastCallOutput','numberOfInputCalls','numberOfOutputCalls','status','message1','messageWelcome'];
   dataSource: MatTableDataSource<TableRecordModel> = new MatTableDataSource<TableRecordModel>();
 
   constructor(private callsService:CallsService) {

@@ -17,8 +17,7 @@ export class CallsService
     lastTwoWeek.setDate(lastTwoWeek.getDate() - 14);
 
     const regexMatch = [/הדרכה/i, /לקוח/i, /קורס/i, /לייזר/i];
-    const records = await this.getInformation({
-      $and: [
+    let filter = {$and: [
         {
           timestamp: {
             $gte: lastTwoWeek.getTime(),
@@ -31,8 +30,9 @@ export class CallsService
             { type: 'MISSED', name: { $exists: false } },
           ],
         },
-      ],
-    });
+      ]};
+
+    const records = await this.getInformation(filter);
 
     // @ts-ignore
     const groups = _.groupBy(records, (r) => r.number);

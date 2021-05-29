@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url: "xxx",
-  API_KEY: 'xxx',
+  url: "/api",
+  API_KEY: 'BBmy3dn7rtz4',
 
 };
 
