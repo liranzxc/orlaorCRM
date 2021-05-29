@@ -16,8 +16,8 @@ export class CallsService
     const lastTwoWeek = new Date();
     lastTwoWeek.setDate(lastTwoWeek.getDate() - 14);
 
-    const regexMatch = [/הדרכה/i, /לקוח/i, /קורס/i, /לייזר/i];
-    let filter = {$and: [
+    let filter = {
+      $and: [
         {
           timestamp: {
             $gte: lastTwoWeek.getTime(),
@@ -26,8 +26,14 @@ export class CallsService
         },
         {
           $or: [
-            { name: { $in: regexMatch } },
-            { type: 'MISSED', name: { $exists: false } },
+            {
+                 $or : [
+                    { name: { '$regex' : '.*' + 'לייזר' + '.*'}  },
+                    { name: { '$regex' : '.*' + 'הדרכה' + '.*'}  },
+                    { name: { '$regex' : '.*' + 'לקוח' + '.*'}  },
+                    { name: { '$regex' : '.*' + 'קורס' + '.*'}  },
+                  ]},
+                { type: 'MISSED', name: { $exists: false } }
           ],
         },
       ]};
