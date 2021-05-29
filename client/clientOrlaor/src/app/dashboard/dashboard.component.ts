@@ -19,13 +19,14 @@ export class DashboardComponent implements AfterViewInit,OnInit {
     ,'lastCallOutput','numberOfInputCalls','numberOfOutputCalls','status','message1','messageWelcome'];
   dataSource: MatTableDataSource<TableRecordModel> = new MatTableDataSource<TableRecordModel>();
 
+  @ViewChild(MatPaginator) paginator: MatPaginator ;
+  @ViewChild(MatSort) sort: MatSort ;
+
+
   constructor(private callsService:CallsService) {
+
   }
 
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator ;
-  // @ts-ignore
-  @ViewChild(MatSort) sort: MatSort ;
 
 
   ngOnInit(): void {
@@ -33,9 +34,10 @@ export class DashboardComponent implements AfterViewInit,OnInit {
       // Assign the data to the data source for the table to render
       this.dataSource = new MatTableDataSource(calls);
     });
-    }
+  }
 
   ngAfterViewInit() {
+    debugger;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
