@@ -23,7 +23,30 @@ export class CallsService {
     timeZone: 'Asia/Jerusalem',
   })
   async handleCron() {
-    await this.sendEmailReport();
+    const mailOptions = {
+      from: ENV.EMAIL_AUTH_GMAIL,
+      to: ENV.CLIENT_EMAIL,
+      subject: 'Reminder: report customers ' + new Date().toString(),
+      html: `<p> reminder to go inside the application </p>`,
+    };
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: ENV.EMAIL_AUTH_GMAIL,
+        pass: ENV.PASS_AUTH_GMAIL,
+      },
+    });
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+    // await this.sendEmailReport();
   }
 
   async saveCallOnDb(calls: CallDtoModel[]) {
